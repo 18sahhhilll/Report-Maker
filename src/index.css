@@ -3,35 +3,34 @@
 :root {
   --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   
-  /* Color Palette - Premium Medical Emerald & Slate Theme */
-  --bg-main: #0f172a;
-  --bg-surface: #1e293b;
-  --bg-surface-elevated: #334155;
-  --bg-glass: rgba(30, 41, 59, 0.85);
-  --bg-input: #0f172a;
+  /* Crisp Light Modern Theme - Apple Health / Clean Medical Minimal */
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-input: #f8fafc;
   
-  --border-subtle: #334155;
-  --border-focus: #10b981;
-  --border-strong: #475569;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-focus: #2563eb;
   
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
   
-  --accent-primary: #10b981; /* Emerald green */
-  --accent-primary-hover: #059669;
-  --accent-secondary: #6366f1; /* Indigo */
-  --accent-secondary-hover: #4f46e5;
-  --accent-warning: #f59e0b;
-  --accent-danger: #ef4444;
-  --accent-danger-hover: #dc2626;
+  --accent-primary: #059669; /* Medical Emerald */
+  --accent-primary-hover: #047857;
+  --accent-secondary: #2563eb; /* Clean Blue */
+  --accent-secondary-hover: #1d4ed8;
+  --accent-warning: #d97706;
+  --accent-danger: #dc2626;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 28px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.05);
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-lg: 18px;
   --radius-full: 9999px;
 }
 
@@ -52,44 +51,30 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbars */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-main);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg-surface-elevated);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-strong);
-}
-
 /* Layout Container */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  max-width: 1400px;
+  max-width: 800px; /* Focused, clean width for mobile and desktop */
   margin: 0 auto;
+  background-color: var(--bg-main);
 }
 
-/* Navigation & Top Bar */
+/* Navigation Top Bar */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 40;
   background-color: var(--bg-glass);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1.1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .brand-badge {
@@ -101,28 +86,42 @@ body {
 }
 
 .brand-icon {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #059669, #0284c7);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
 }
 
 .brand-title {
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
-.brand-subtitle {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+.report-title-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  max-width: 200px;
+}
+
+.report-title-badge:hover {
+  background-color: var(--border-subtle);
 }
 
 /* Buttons */
@@ -130,16 +129,16 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.45rem;
   padding: 0.65rem 1.1rem;
-  min-height: 44px; /* Touch target */
+  min-height: 46px;
   border-radius: var(--radius-md);
   font-family: inherit;
   font-weight: 600;
   font-size: 0.925rem;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s ease;
   user-select: none;
   text-decoration: none;
   white-space: nowrap;
@@ -150,38 +149,38 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-primary), #059669);
+  background: linear-gradient(135deg, var(--accent-primary), #047857);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, #059669, #047857);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, #047857, #065f46);
 }
 
 .btn-secondary {
-  background-color: var(--bg-surface-elevated);
+  background-color: var(--bg-surface);
   color: var(--text-primary);
   border-color: var(--border-subtle);
+  box-shadow: var(--shadow-sm);
 }
 .btn-secondary:hover {
-  background-color: var(--border-strong);
-  color: #ffffff;
+  background-color: var(--bg-surface-elevated);
+  border-color: var(--border-strong);
 }
 
 .btn-accent {
-  background: linear-gradient(135deg, var(--accent-secondary), #4f46e5);
+  background-color: var(--accent-secondary);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 .btn-accent:hover {
-  background: linear-gradient(135deg, #4f46e5, #4338ca);
+  background-color: var(--accent-secondary-hover);
 }
 
 .btn-danger {
-  background-color: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border-color: rgba(239, 68, 68, 0.3);
+  background-color: #fef2f2;
+  color: var(--accent-danger);
+  border-color: #fecaca;
 }
 .btn-danger:hover {
   background-color: var(--accent-danger);
@@ -190,7 +189,7 @@ body {
 
 .btn-sm {
   padding: 0.4rem 0.75rem;
-  min-height: 36px;
+  min-height: 38px;
   font-size: 0.85rem;
   border-radius: var(--radius-sm);
 }
@@ -202,13 +201,46 @@ body {
   border-radius: var(--radius-md);
 }
 
+/* Tab View Switcher */
+.tab-group {
+  display: flex;
+  background-color: var(--bg-surface-elevated);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  min-height: 38px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn.active {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
 /* Card Container */
 .card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Form Controls */
@@ -216,7 +248,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 
 .form-label {
@@ -229,17 +261,20 @@ body {
 }
 
 .form-label .badge {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.725rem;
+  font-weight: 600;
   color: var(--text-muted);
+  background-color: var(--bg-surface-elevated);
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
 }
 
 .form-control {
   width: 100%;
-  min-height: 48px; /* Touch friendly */
-  padding: 0.75rem 1rem;
+  min-height: 50px;
+  padding: 0.8rem 1rem;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 16px !important; /* Prevents iOS auto zoom */
   color: var(--text-primary);
   background-color: var(--bg-input);
   border: 1.5px solid var(--border-subtle);
@@ -249,8 +284,9 @@ body {
 }
 
 .form-control:focus {
+  background-color: #ffffff;
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 textarea.form-control {
@@ -258,46 +294,13 @@ textarea.form-control {
   resize: vertical;
 }
 
-/* View Mode Switcher Pills */
-.tab-group {
-  display: flex;
-  background-color: var(--bg-input);
-  padding: 4px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-}
-
-.tab-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  min-height: 38px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: transparent;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tab-btn.active {
-  background-color: var(--bg-surface-elevated);
-  color: var(--text-primary);
-  box-shadow: var(--shadow-sm);
-}
-
-/* Modals & Overlay */
+/* Modals & Bottom Sheets */
 .modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background-color: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(6px);
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,20 +310,20 @@ textarea.form-control {
 
 .modal-content {
   background-color: var(--bg-surface);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   width: 100%;
-  max-width: 650px;
+  max-width: 600px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
-  animation: slideUp 0.25s ease-out;
+  animation: slideUp 0.22s ease-out;
 }
 
 .modal-header {
-  padding: 1.25rem 1.5rem;
+  padding: 1.1rem 1.35rem;
   border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
@@ -328,23 +331,24 @@ textarea.form-control {
 }
 
 .modal-title {
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 800;
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: 1.25rem 1.35rem;
   overflow-y: auto;
   flex: 1;
 }
 
 .modal-footer {
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.35rem;
   border-top: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.75rem;
+  background-color: var(--bg-surface);
 }
 
 /* Table View styling */
@@ -360,7 +364,7 @@ textarea.form-control {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.925rem;
+  font-size: 0.9rem;
 }
 
 .data-table th {
@@ -368,7 +372,7 @@ textarea.form-control {
   color: var(--text-primary);
   font-weight: 700;
   padding: 0.85rem 1rem;
-  border-bottom: 2px solid var(--border-subtle);
+  border-bottom: 1.5px solid var(--border-subtle);
   white-space: nowrap;
   position: sticky;
   top: 0;
@@ -381,12 +385,8 @@ textarea.form-control {
   vertical-align: middle;
 }
 
-.data-table tr:nth-child(even) td {
-  background-color: rgba(255, 255, 255, 0.015);
-}
-
 .data-table tr:hover td {
-  background-color: rgba(16, 185, 129, 0.05);
+  background-color: var(--bg-surface-elevated);
 }
 
 .table-input {
@@ -402,10 +402,11 @@ textarea.form-control {
 
 .table-input:hover {
   border-color: var(--border-subtle);
+  background-color: var(--bg-input);
 }
 
 .table-input:focus {
-  background-color: var(--bg-input);
+  background-color: #ffffff;
   border-color: var(--border-focus);
   outline: none;
 }
@@ -417,74 +418,20 @@ textarea.form-control {
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
+  .app-container {
+    padding-bottom: 1rem;
+  }
+
   .navbar {
-    padding: 0.6rem 0.75rem;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.65rem;
+    padding: 0.75rem 0.9rem;
   }
 
-  .nav-top-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .brand-title {
-    font-size: 1.05rem;
-  }
-
-  .brand-subtitle {
-    display: none;
-  }
-
-  /* Full width tab group on phones */
-  .tab-group {
-    max-width: 100% !important;
-    width: 100%;
-  }
-
-  .tab-btn {
-    padding: 0.6rem 0.5rem;
-    font-size: 0.85rem;
-    min-height: 42px;
-  }
-
-  .action-bar-mobile {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.4rem;
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 2px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Prevent iOS input zoom by keeping font-size >= 16px */
-  .form-control, select.form-control, textarea.form-control {
-    font-size: 16px !important;
-    min-height: 50px;
-    padding: 0.8rem 0.9rem;
-  }
-
-  .form-group {
-    margin-bottom: 1.1rem;
-  }
-
-  .form-label {
-    font-size: 0.925rem;
-    margin-bottom: 0.35rem;
-  }
-
-  /* Bottom sheet modal styling for mobile screens */
   .modal-overlay {
     padding: 0;
     align-items: flex-end;
@@ -493,34 +440,8 @@ textarea.form-control {
   .modal-content {
     max-width: 100% !important;
     max-height: 92vh !important;
-    border-radius: 20px 20px 0 0 !important;
+    border-radius: 24px 24px 0 0 !important;
     animation: slideUpMobile 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .modal-header {
-    padding: 1rem 1.25rem;
-  }
-
-  .modal-body {
-    padding: 1rem 1.1rem;
-  }
-
-  .modal-footer {
-    padding: 0.85rem 1.1rem;
-    position: sticky;
-    bottom: 0;
-    background-color: var(--bg-surface);
-    border-top: 1px solid var(--border-subtle);
-  }
-
-  .btn {
-    min-height: 46px;
-    padding: 0.6rem 0.9rem;
-    font-size: 0.9rem;
-  }
-
-  .hide-mobile {
-    display: none !important;
   }
 }
 
@@ -528,4 +449,3 @@ textarea.form-control {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
-

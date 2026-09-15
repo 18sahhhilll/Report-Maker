@@ -5,6 +5,7 @@ import ColumnBuilderModal from './components/ColumnBuilderModal';
 import EntryFormView from './components/EntryFormView';
 import EntryTableView from './components/EntryTableView';
 import BackupModal from './components/BackupModal';
+import ActionsMenuModal from './components/ActionsMenuModal';
 import { loadReports, saveReports, clearAllStorage, SAMPLE_REPORTS } from './storage';
 import { exportReportToExcel, exportAllReportsToExcel } from './utils/excelExport';
 
@@ -19,6 +20,7 @@ export default function App() {
   const [isReportListOpen, setIsReportListOpen] = useState(false);
   const [isColumnBuilderOpen, setIsColumnBuilderOpen] = useState(false);
   const [isBackupModalOpen, setIsBackupModalOpen] = useState(false);
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
 
   // Initial Load
   useEffect(() => {
@@ -85,7 +87,7 @@ export default function App() {
     if (!activeReport) return;
     const newEntryId = `entry_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
     
-    // Default initial values (e.g. Visit Date set to today if a Date column exists)
+    // Default initial values
     const initialData = {};
     (activeReport.columns || []).forEach(col => {
       if (col.type === 'date') {
@@ -156,7 +158,6 @@ export default function App() {
     }
 
     if (initialColumns.length === 0) {
-      // Use standard default preset
       initialColumns = [
         { id: `col_${Date.now()}_1`, name: 'Doctor Name', type: 'text' },
         { id: `col_${Date.now()}_2`, name: 'Specialty', type: 'select', options: ['Cardiology', 'Internal Medicine', 'General Physician', 'Pediatrics', 'Orthopedics'] },
@@ -168,14 +169,6 @@ export default function App() {
         { id: `col_${Date.now()}_8`, name: 'Notes', type: 'text' }
       ];
     }
-
-    const firstEntryId = `entry_${Date.now()}_1`;
-    const initialData = {};
-    initialColumns.forEach(col => {
-      if (col.type === 'date') {
-        initialData[col.id] = new Date().toISOString().split('T')[0];
-      }
-    });
 
     const newReport = {
       id: `report_${Date.now()}`,
@@ -254,26 +247,22 @@ export default function App() {
       {/* Navigation Top Header */}
       <Header
         activeReport={activeReport}
-        reports={reports}
-        viewMode={viewMode}
-        setViewMode={setViewMode}
         onOpenReportList={() => setIsReportListOpen(true)}
-        onOpenColumnBuilder={() => setIsColumnBuilderOpen(true)}
-        onExportExcel={() => handleExportSingleExcel(activeReport)}
-        onOpenBackupModal={() => setIsBackupModalOpen(true)}
-        onNewVisitEntry={handleNewVisitEntry}
+        onOpenMenuModal={() => setIsMenuModalOpen(true)}
         onRenameReport={handleRenameReport}
         saveStatus={saveStatus}
       />
 
       {/* Main View Area */}
-      <main style={{ flex: 1, padding: '1rem 0.75rem', width: '100%' }}>
+      <main style={{ flex: 1, padding: '0.5rem', width: '100%' }}>
         {activeReport ? (
           viewMode === 'form' ? (
             <EntryFormView
               report={activeReport}
               activeEntryIndex={activeEntryIndex}
               setActiveEntryIndex={setActiveEntryIndex}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
               onUpdateEntry={handleUpdateEntry}
               onNewVisitEntry={handleNewVisitEntry}
               onDeleteEntry={handleDeleteEntry}
@@ -283,6 +272,8 @@ export default function App() {
           ) : (
             <EntryTableView
               report={activeReport}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
               onUpdateEntry={handleUpdateEntry}
               onNewVisitEntry={handleNewVisitEntry}
               onDeleteEntry={handleDeleteEntry}
@@ -300,7 +291,19 @@ export default function App() {
         )}
       </main>
 
-      {/* Modals */}
+      {/* Modals & Action Menu Drawer */}
+      <ActionsMenuModal
+        isOpen={isMenuModalOpen}
+        onClose={() => setIsMenuModalOpen(false)}
+        activeReport={activeReport}
+        onOpenReportList={() => setIsReportListOpen(true)}
+        onOpenColumnBuilder={() => setIsColumnBuilderOpen(true)}
+        onExportExcel={() => handleExportSingleExcel(activeReport)}
+        onExportAllExcel={handleExportAllExcel}
+        onOpenBackupModal={() => setIsBackupModalOpen(true)}
+        onNewVisitEntry={handleNewVisitEntry}
+      />
+
       <ReportListModal
         isOpen={isReportListOpen}
         onClose={() => setIsReportListOpen(false)}

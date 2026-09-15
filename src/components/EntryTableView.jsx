@@ -4,13 +4,15 @@ import {
   Search, 
   Trash2, 
   Sliders, 
-  Copy, 
-  FileSpreadsheet, 
-  Filter
+  FileSpreadsheet,
+  LayoutList,
+  Table
 } from 'lucide-react';
 
 export default function EntryTableView({
   report,
+  viewMode,
+  setViewMode,
   onUpdateEntry,
   onNewVisitEntry,
   onDeleteEntry,
@@ -41,59 +43,67 @@ export default function EntryTableView({
   };
 
   return (
-    <div style={{ padding: '1rem 0.5rem', width: '100%' }}>
+    <div style={{ padding: '0.75rem 0.5rem', width: '100%' }}>
       
-      {/* Table Toolbar */}
+      {/* Top Toolbar */}
       <div 
-        className="card" 
         style={{ 
           marginBottom: '1rem', 
-          padding: '0.85rem 1rem', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between', 
-          gap: '1rem',
+          gap: '0.5rem',
           flexWrap: 'wrap'
         }}
       >
+        {/* Form / Table Toggle */}
+        <div className="tab-group" style={{ maxWidth: '220px' }}>
+          <button
+            className={`tab-btn ${viewMode === 'form' ? 'active' : ''}`}
+            onClick={() => setViewMode('form')}
+          >
+            <LayoutList size={15} />
+            <span>Form</span>
+          </button>
+          <button
+            className={`tab-btn ${viewMode === 'table' ? 'active' : ''}`}
+            onClick={() => setViewMode('table')}
+          >
+            <Table size={15} />
+            <span>Table</span>
+          </button>
+        </div>
+
         {/* Search */}
-        <div style={{ flex: 1, minWidth: '220px', maxWidth: '400px', position: 'relative' }}>
-          <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+        <div style={{ flex: 1, minWidth: '180px', position: 'relative' }}>
+          <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input
             type="text"
             className="form-control"
-            style={{ paddingLeft: '2.5rem', minHeight: '40px', fontSize: '0.875rem' }}
-            placeholder={`Filter ${entries.length} doctor visits...`}
+            style={{ paddingLeft: '2.4rem', minHeight: '38px', fontSize: '0.85rem' }}
+            placeholder={`Search ${entries.length} doctor visits...`}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
         </div>
 
-        {/* Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-          <button className="btn btn-secondary btn-sm" onClick={onOpenColumnBuilder}>
-            <Sliders size={15} /> Customize Columns
-          </button>
-          <button className="btn btn-accent btn-sm" onClick={onExportExcel}>
-            <FileSpreadsheet size={15} /> Export Excel
-          </button>
-          <button className="btn btn-primary btn-sm" onClick={onNewVisitEntry}>
-            <Plus size={16} /> Add Row
-          </button>
-        </div>
+        {/* Add Row Button */}
+        <button className="btn btn-primary btn-sm" onClick={onNewVisitEntry}>
+          <Plus size={16} /> Add Row
+        </button>
       </div>
 
-      {/* Spreadsheet Grid */}
+      {/* Clean Spreadsheet Grid */}
       <div className="table-responsive">
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: '50px', textAlign: 'center' }}>#</th>
+              <th style={{ width: '50px', textAlign: 'center' }}>Sr No</th>
               {columns.map(col => (
                 <th key={col.id} style={{ minWidth: '150px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
                     <span>{col.name}</span>
-                    <span style={{ fontSize: '0.68rem', opacity: 0.7, fontWeight: 500 }}>{col.type || 'TEXT'}</span>
+                    <span style={{ fontSize: '0.68rem', opacity: 0.6, fontWeight: 500 }}>{(col.type || 'TEXT').toUpperCase()}</span>
                   </div>
                 </th>
               ))}
@@ -110,7 +120,7 @@ export default function EntryTableView({
             ) : (
               filteredEntries.map((entry, idx) => (
                 <tr key={entry.id}>
-                  <td style={{ textAlign: 'center', fontWeight: 600, color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                  <td style={{ textAlign: 'center', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                     {idx + 1}
                   </td>
                   {columns.map(col => {
