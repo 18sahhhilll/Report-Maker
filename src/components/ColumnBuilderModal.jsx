@@ -12,6 +12,7 @@ import {
   Calendar, 
   ListFilter,
   Phone,
+  Clock,
   AlertCircle
 } from 'lucide-react';
 import { PRESET_COLUMNS } from '../storage';
@@ -165,6 +166,9 @@ export default function ColumnBuilderModal({
                 <button className="btn btn-secondary btn-sm" onClick={() => handleAddColumn('date')}>
                   <Calendar size={14} /> Date
                 </button>
+                <button className="btn btn-secondary btn-sm" onClick={() => handleAddColumn('time')}>
+                  <Clock size={14} /> Time
+                </button>
                 <button className="btn btn-secondary btn-sm" onClick={() => handleAddColumn('select')}>
                   <ListFilter size={14} /> Dropdown
                 </button>
@@ -230,6 +234,7 @@ export default function ColumnBuilderModal({
                       <option value="number">Number</option>
                       <option value="phone">Phone No</option>
                       <option value="date">Date</option>
+                      <option value="time">Time</option>
                       <option value="select">Dropdown</option>
                     </select>
                   </div>

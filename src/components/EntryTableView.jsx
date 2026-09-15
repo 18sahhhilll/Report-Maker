@@ -169,7 +169,7 @@ export default function EntryTableView({
                             />
                           ) : (
                             <input
-                              type={col.type === 'number' ? 'number' : col.type === 'date' ? 'date' : 'text'}
+                              type={col.type === 'number' ? 'number' : col.type === 'date' ? 'date' : col.type === 'time' ? 'time' : 'text'}
                               className="table-input"
                               value={val}
                               onChange={e => handleCellChange(entry.id, col.id, e.target.value)}

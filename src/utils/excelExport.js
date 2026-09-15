@@ -101,7 +101,7 @@ export async function exportReportToExcel(report) {
       } else if (colDef && colDef.type === 'phone') {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
         cell.numFmt = '@'; // Force text format for phone numbers
-      } else if (colDef && colDef.type === 'date') {
+      } else if (colDef && (colDef.type === 'date' || colDef.type === 'time')) {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       } else {
         cell.alignment = { vertical: 'middle', horizontal: 'left', wrapText: true };

@@ -173,6 +173,13 @@ export default function EntryFormView({
                     value={val}
                     onChange={e => handleFieldChange(col.id, e.target.value)}
                   />
+                ) : col.type === 'time' ? (
+                  <input
+                    type="time"
+                    className="form-control"
+                    value={val}
+                    onChange={e => handleFieldChange(col.id, e.target.value)}
+                  />
                 ) : (
                   col.name.toLowerCase().includes('note') || col.name.toLowerCase().includes('remark') ? (
                     <textarea
