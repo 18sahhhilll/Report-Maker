@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Stethoscope, 
   FolderOpen, 
@@ -10,7 +10,10 @@ import {
   CheckCircle2, 
   RefreshCw,
   Plus,
-  Database
+  Database,
+  Pencil,
+  Check,
+  X
 } from 'lucide-react';
 
 export default function Header({
@@ -23,8 +26,25 @@ export default function Header({
   onExportExcel,
   onOpenBackupModal,
   onNewVisitEntry,
+  onRenameReport,
   saveStatus
 }) {
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [editedTitle, setEditedTitle] = useState('');
+
+  useEffect(() => {
+    if (activeReport) {
+      setEditedTitle(activeReport.title || '');
+    }
+  }, [activeReport]);
+
+  const handleSaveTitle = () => {
+    if (editedTitle.trim() && activeReport) {
+      onRenameReport(activeReport.id, editedTitle.trim());
+    }
+    setIsEditingTitle(false);
+  };
+
   return (
     <header className="navbar">
       {/* Top row: Brand & Report Switcher */}
@@ -39,19 +59,64 @@ export default function Header({
           </div>
         </div>
 
-        {/* Current Active Report Switcher Badge */}
+        {/* Current Active Report Title & Rename Input */}
         {activeReport && (
-          <button 
-            className="btn btn-secondary btn-sm" 
-            onClick={onOpenReportList}
-            title="Switch or manage reports"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', maxWidth: '170px' }}
-          >
-            <FolderOpen size={15} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
-            <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {activeReport.title}
-            </span>
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', maxWidth: '240px' }}>
+            {!isEditingTitle ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
+                <button 
+                  className="btn btn-secondary btn-sm" 
+                  onClick={onOpenReportList}
+                  title="Switch report"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', padding: '0.4rem 0.6rem' }}
+                >
+                  <FolderOpen size={14} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
+                  <span style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '130px' }}>
+                    {activeReport.title}
+                  </span>
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm btn-icon-only"
+                  style={{ width: '32px', height: '32px' }}
+                  onClick={() => setIsEditingTitle(true)}
+                  title="Rename this report"
+                >
+                  <Pencil size={13} style={{ color: 'var(--text-secondary)' }} />
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', width: '100%' }}>
+                <input
+                  type="text"
+                  className="form-control"
+                  style={{ minHeight: '34px', padding: '0.2rem 0.5rem', fontSize: '0.85rem' }}
+                  value={editedTitle}
+                  onChange={e => setEditedTitle(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') handleSaveTitle();
+                    if (e.key === 'Escape') setIsEditingTitle(false);
+                  }}
+                  autoFocus
+                />
+                <button
+                  className="btn btn-primary btn-sm btn-icon-only"
+                  style={{ width: '32px', height: '32px' }}
+                  onClick={handleSaveTitle}
+                  title="Save title"
+                >
+                  <Check size={14} />
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm btn-icon-only"
+                  style={{ width: '32px', height: '32px' }}
+                  onClick={() => setIsEditingTitle(false)}
+                  title="Cancel"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )}
+          </div>
         )}
       </div>
 

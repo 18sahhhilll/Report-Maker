@@ -11,6 +11,7 @@ import {
   Hash, 
   Calendar, 
   ListFilter,
+  Phone,
   AlertCircle
 } from 'lucide-react';
 import { PRESET_COLUMNS } from '../storage';

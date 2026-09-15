@@ -235,6 +235,19 @@ export default function App() {
     }
   };
 
+  // 12. Rename Report
+  const handleRenameReport = (reportId, newTitle) => {
+    if (!newTitle.trim()) return;
+    setReports(prevReports =>
+      prevReports.map(r => {
+        if (r.id === reportId) {
+          return { ...r, title: newTitle.trim(), updatedAt: new Date().toISOString() };
+        }
+        return r;
+      })
+    );
+  };
+
   return (
     <div className="app-container">
       
@@ -249,6 +262,7 @@ export default function App() {
         onExportExcel={() => handleExportSingleExcel(activeReport)}
         onOpenBackupModal={() => setIsBackupModalOpen(true)}
         onNewVisitEntry={handleNewVisitEntry}
+        onRenameReport={handleRenameReport}
         saveStatus={saveStatus}
       />
 
@@ -300,6 +314,7 @@ export default function App() {
         onDeleteReport={handleDeleteReport}
         onExportSingleExcel={handleExportSingleExcel}
         onExportAllExcel={handleExportAllExcel}
+        onRenameReport={handleRenameReport}
       />
 
       <ColumnBuilderModal

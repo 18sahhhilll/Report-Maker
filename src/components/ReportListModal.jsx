@@ -10,7 +10,8 @@ import {
   Layers, 
   Check, 
   ArrowRight,
-  Download
+  Download,
+  Pencil
 } from 'lucide-react';
 
 export default function ReportListModal({
@@ -22,14 +23,30 @@ export default function ReportListModal({
   onCreateReport,
   onDeleteReport,
   onExportSingleExcel,
-  onExportAllExcel
+  onExportAllExcel,
+  onRenameReport
 }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [copyFromId, setCopyFromId] = useState('');
 
+  const [editingId, setEditingId] = useState(null);
+  const [editingTitleText, setEditingTitleText] = useState('');
+
   if (!isOpen) return null;
+
+  const handleStartRename = (report) => {
+    setEditingId(report.id);
+    setEditingTitleText(report.title || '');
+  };
+
+  const handleSaveRename = (reportId) => {
+    if (editingTitleText.trim() && onRenameReport) {
+      onRenameReport(reportId, editingTitleText.trim());
+    }
+    setEditingId(null);
+  };
 
   const filteredReports = reports.filter(r => 
     r.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -171,20 +188,61 @@ export default function ReportListModal({
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                        <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                          {report.title}
-                        </h4>
-                        {isActive && (
-                          <span style={{ 
-                            fontSize: '0.7rem', 
-                            background: 'var(--accent-primary)', 
-                            color: '#fff', 
-                            padding: '2px 8px', 
-                            borderRadius: '10px', 
-                            fontWeight: 700 
-                          }}>
-                            ACTIVE
-                          </span>
+                        {editingId === report.id ? (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', width: '100%' }}>
+                            <input
+                              type="text"
+                              className="form-control"
+                              style={{ minHeight: '36px', fontSize: '0.9rem', padding: '0.2rem 0.5rem' }}
+                              value={editingTitleText}
+                              onChange={e => setEditingTitleText(e.target.value)}
+                              onKeyDown={e => {
+                                if (e.key === 'Enter') handleSaveRename(report.id);
+                                if (e.key === 'Escape') setEditingId(null);
+                              }}
+                              autoFocus
+                            />
+                            <button
+                              className="btn btn-primary btn-sm btn-icon-only"
+                              style={{ width: '32px', height: '32px' }}
+                              onClick={() => handleSaveRename(report.id)}
+                            >
+                              <Check size={14} />
+                            </button>
+                            <button
+                              className="btn btn-secondary btn-sm btn-icon-only"
+                              style={{ width: '32px', height: '32px' }}
+                              onClick={() => setEditingId(null)}
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                              {report.title}
+                            </h4>
+                            <button
+                              className="btn btn-secondary btn-sm btn-icon-only"
+                              style={{ width: '28px', height: '28px', border: 'none', background: 'transparent' }}
+                              onClick={() => handleStartRename(report)}
+                              title="Rename report"
+                            >
+                              <Pencil size={13} style={{ color: 'var(--text-muted)' }} />
+                            </button>
+                            {isActive && (
+                              <span style={{ 
+                                fontSize: '0.7rem', 
+                                background: 'var(--accent-primary)', 
+                                color: '#fff', 
+                                padding: '2px 8px', 
+                                borderRadius: '10px', 
+                                fontWeight: 700 
+                              }}>
+                                ACTIVE
+                              </span>
+                            )}
+                          </>
                         )}
                       </div>
 
