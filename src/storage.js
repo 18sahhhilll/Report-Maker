@@ -10,14 +10,12 @@ export const SAMPLE_REPORTS = [
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     columns: [
-      { id: 'col_1', name: 'Doctor Name', type: 'text', required: true },
-      { id: 'col_2', name: 'Specialty', type: 'select', options: ['Cardiology', 'Internal Medicine', 'General Physician', 'Pediatrics', 'Orthopedics', 'Diabetology'] },
-      { id: 'col_3', name: 'Hospital / Clinic', type: 'text' },
-      { id: 'col_4', name: 'Products Discussed', type: 'text' },
-      { id: 'col_5', name: 'Samples Provided (Units)', type: 'number' },
-      { id: 'col_6', name: 'Visit Date', type: 'date' },
-      { id: 'col_7', name: 'Call Outcome', type: 'select', options: ['Interested', 'Prescribing', 'Follow-up Needed', 'Busy / Rescheduled'] },
-      { id: 'col_8', name: 'Notes & Follow-up', type: 'text' }
+      { id: 'col_1', name: 'Time', type: 'time' },
+      { id: 'col_2', name: 'Doctor Name', type: 'text' },
+      { id: 'col_3', name: 'Date', type: 'date' },
+      { id: 'col_4', name: 'Category', type: 'select', options: ['Core', 'Super Core', 'Non-Core', 'VIP'] },
+      { id: 'col_5', name: 'Qualification', type: 'select', options: ['MBBS', 'MD', 'MS', 'DNB', 'DM', 'MCh', 'BAMS', 'BHMS'] },
+      { id: 'col_6', name: 'Contact No', type: 'phone' }
     ],
     entries: []
   }
@@ -78,14 +76,12 @@ export const PRESET_COLUMNS = [
   {
     name: 'Standard Doctor Visit',
     columns: [
-      { id: 'p_1', name: 'Doctor Name', type: 'text' },
-      { id: 'p_2', name: 'Specialty', type: 'select', options: ['General Medicine', 'Cardiology', 'Pediatrics', 'Orthopedics', 'Dermatology', 'ENT', 'Gynecology'] },
-      { id: 'p_3', name: 'Hospital / Clinic', type: 'text' },
-      { id: 'p_4', name: 'Products Discussed', type: 'text' },
-      { id: 'p_5', name: 'Samples / Promos Given', type: 'text' },
-      { id: 'p_6', name: 'Visit Date', type: 'date' },
-      { id: 'p_7', name: 'Call Outcome', type: 'select', options: ['Positive', 'Needs Follow-up', 'Not Interested', 'Sample Given'] },
-      { id: 'p_8', name: 'Remarks & Next Action', type: 'text' }
+      { id: 'p_1', name: 'Time', type: 'time' },
+      { id: 'p_2', name: 'Doctor Name', type: 'text' },
+      { id: 'p_3', name: 'Date', type: 'date' },
+      { id: 'p_4', name: 'Category', type: 'select', options: ['Core', 'Super Core', 'Non-Core', 'VIP'] },
+      { id: 'p_5', name: 'Qualification', type: 'select', options: ['MBBS', 'MD', 'MS', 'DNB', 'DM', 'MCh', 'BAMS', 'BHMS'] },
+      { id: 'p_6', name: 'Contact No', type: 'phone' }
     ]
   },
   {
