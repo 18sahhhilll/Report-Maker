@@ -424,12 +424,108 @@ textarea.form-control {
 /* Mobile responsive adjustments */
 @media (max-width: 640px) {
   .navbar {
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 0.75rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
   }
+
+  .nav-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
+  }
+
   .brand-subtitle {
     display: none;
   }
+
+  /* Full width tab group on phones */
+  .tab-group {
+    max-width: 100% !important;
+    width: 100%;
+  }
+
+  .tab-btn {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.85rem;
+    min-height: 42px;
+  }
+
+  .action-bar-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent iOS input zoom by keeping font-size >= 16px */
+  .form-control, select.form-control, textarea.form-control {
+    font-size: 16px !important;
+    min-height: 50px;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .form-group {
+    margin-bottom: 1.1rem;
+  }
+
+  .form-label {
+    font-size: 0.925rem;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Bottom sheet modal styling for mobile screens */
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal-content {
+    max-width: 100% !important;
+    max-height: 92vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    animation: slideUpMobile 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .modal-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .modal-body {
+    padding: 1rem 1.1rem;
+  }
+
+  .modal-footer {
+    padding: 0.85rem 1.1rem;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+  }
+
   .btn {
-    padding: 0.5rem 0.85rem;
+    min-height: 46px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .hide-mobile {
+    display: none !important;
   }
 }
+
+@keyframes slideUpMobile {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
