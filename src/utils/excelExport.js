@@ -98,6 +98,9 @@ export async function exportReportToExcel(report) {
         if (typeof cell.value === 'number') {
           cell.numFmt = '#,##0.00;(#,##0.00);"-"';
         }
+      } else if (colDef && colDef.type === 'phone') {
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        cell.numFmt = '@'; // Force text format for phone numbers
       } else if (colDef && colDef.type === 'date') {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       } else {

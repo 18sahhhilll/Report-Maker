@@ -169,6 +169,35 @@ export default function EntryFormView({
                     value={val}
                     onChange={e => handleFieldChange(col.id, e.target.value)}
                   />
+                ) : col.type === 'phone' ? (
+                  <div>
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      maxLength={10}
+                      className="form-control"
+                      placeholder="10-digit mobile number (e.g. 9876543210)"
+                      value={val}
+                      onChange={e => {
+                        // Strip non-digits and limit to 10 digits
+                        const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        handleFieldChange(col.id, digits);
+                      }}
+                      style={{
+                        borderColor: val && val.length === 10 ? 'var(--accent-primary)' : val && val.length > 0 ? 'var(--accent-warning)' : 'var(--border-subtle)'
+                      }}
+                    />
+                    {val && val.length > 0 && val.length < 10 && (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--accent-warning)', marginTop: '2px', display: 'block' }}>
+                        ⚠️ Phone number must be exactly 10 digits ({val.length}/10)
+                      </span>
+                    )}
+                    {val && val.length === 10 && (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--accent-primary)', marginTop: '2px', display: 'block' }}>
+                        ✓ Valid 10-digit Phone No
+                      </span>
+                    )}
+                  </div>
                 ) : col.type === 'date' ? (
                   <input
                     type="date"

@@ -129,6 +129,22 @@ export default function EntryTableView({
                               <option key={i} value={opt}>{opt}</option>
                             ))}
                           </select>
+                        ) : col.type === 'phone' ? (
+                          <input
+                            type="tel"
+                            inputMode="numeric"
+                            maxLength={10}
+                            className="table-input"
+                            style={{
+                              color: val && val.length === 10 ? 'var(--accent-primary)' : val && val.length > 0 ? 'var(--accent-warning)' : 'inherit'
+                            }}
+                            value={val}
+                            onChange={e => {
+                              const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                              handleCellChange(entry.id, col.id, digits);
+                            }}
+                            placeholder="10 digits..."
+                          />
                         ) : (
                           <input
                             type={col.type === 'number' ? 'number' : col.type === 'date' ? 'date' : 'text'}

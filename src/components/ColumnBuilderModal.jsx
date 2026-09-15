@@ -159,6 +159,9 @@ export default function ColumnBuilderModal({
                 <button className="btn btn-secondary btn-sm" onClick={() => handleAddColumn('number')}>
                   <Hash size={14} /> Number
                 </button>
+                <button className="btn btn-secondary btn-sm" onClick={() => handleAddColumn('phone')}>
+                  <Phone size={14} /> Phone No
+                </button>
                 <button className="btn btn-secondary btn-sm" onClick={() => handleAddColumn('date')}>
                   <Calendar size={14} /> Date
                 </button>
@@ -225,6 +228,7 @@ export default function ColumnBuilderModal({
                     >
                       <option value="text">Text</option>
                       <option value="number">Number</option>
+                      <option value="phone">Phone No</option>
                       <option value="date">Date</option>
                       <option value="select">Dropdown</option>
                     </select>
