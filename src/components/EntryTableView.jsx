@@ -6,16 +6,20 @@ import {
   Sliders, 
   FileSpreadsheet,
   LayoutList,
-  Table
+  Table,
+  Copy,
+  Pencil
 } from 'lucide-react';
 
 export default function EntryTableView({
   report,
   viewMode,
   setViewMode,
+  setActiveEntryIndex,
   onUpdateEntry,
   onNewVisitEntry,
   onDeleteEntry,
+  onDuplicateEntry,
   onOpenColumnBuilder,
   onExportExcel
 }) {
@@ -40,6 +44,11 @@ export default function EntryTableView({
         [colId]: value
       });
     }
+  };
+
+  const handleEditInForm = (realIndex) => {
+    if (setActiveEntryIndex) setActiveEntryIndex(realIndex);
+    if (setViewMode) setViewMode('form');
   };
 
   return (
@@ -107,7 +116,7 @@ export default function EntryTableView({
                   </div>
                 </th>
               ))}
-              <th style={{ width: '60px', textAlign: 'center' }}>Action</th>
+              <th style={{ width: '120px', textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -118,69 +127,94 @@ export default function EntryTableView({
                 </td>
               </tr>
             ) : (
-              filteredEntries.map((entry, idx) => (
-                <tr key={entry.id}>
-                  <td style={{ textAlign: 'center', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                    {idx + 1}
-                  </td>
-                  {columns.map(col => {
-                    const val = entry.data ? (entry.data[col.id] ?? '') : '';
+              filteredEntries.map((entry, idx) => {
+                const realIndex = entries.findIndex(e => e.id === entry.id);
 
-                    return (
-                      <td key={col.id}>
-                        {col.type === 'select' ? (
-                          <select
-                            className="table-input"
-                            value={val}
-                            onChange={e => handleCellChange(entry.id, col.id, e.target.value)}
-                          >
-                            <option value="">--</option>
-                            {(col.options || []).map((opt, i) => (
-                              <option key={i} value={opt}>{opt}</option>
-                            ))}
-                          </select>
-                        ) : col.type === 'phone' ? (
-                          <input
-                            type="tel"
-                            inputMode="numeric"
-                            maxLength={10}
-                            className="table-input"
-                            style={{
-                              color: val && val.length === 10 ? 'var(--accent-primary)' : val && val.length > 0 ? 'var(--accent-warning)' : 'inherit'
-                            }}
-                            value={val}
-                            onChange={e => {
-                              const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
-                              handleCellChange(entry.id, col.id, digits);
-                            }}
-                            placeholder="10 digits..."
-                          />
-                        ) : (
-                          <input
-                            type={col.type === 'number' ? 'number' : col.type === 'date' ? 'date' : 'text'}
-                            className="table-input"
-                            value={val}
-                            onChange={e => handleCellChange(entry.id, col.id, e.target.value)}
-                            placeholder="Click to edit..."
-                          />
-                        )}
-                      </td>
-                    );
-                  })}
-                  <td style={{ textAlign: 'center' }}>
-                    {entries.length > 1 && (
-                      <button
-                        className="btn btn-danger btn-sm btn-icon-only"
-                        style={{ width: '32px', height: '32px' }}
-                        onClick={() => onDeleteEntry(entry.id)}
-                        title="Delete row"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))
+                return (
+                  <tr key={entry.id}>
+                    <td style={{ textAlign: 'center', fontWeight: 700, color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                      {idx + 1}
+                    </td>
+                    {columns.map(col => {
+                      const val = entry.data ? (entry.data[col.id] ?? '') : '';
+
+                      return (
+                        <td key={col.id}>
+                          {col.type === 'select' ? (
+                            <select
+                              className="table-input"
+                              value={val}
+                              onChange={e => handleCellChange(entry.id, col.id, e.target.value)}
+                            >
+                              <option value="">--</option>
+                              {(col.options || []).map((opt, i) => (
+                                <option key={i} value={opt}>{opt}</option>
+                              ))}
+                            </select>
+                          ) : col.type === 'phone' ? (
+                            <input
+                              type="tel"
+                              inputMode="numeric"
+                              maxLength={10}
+                              className="table-input"
+                              style={{
+                                color: val && val.length === 10 ? 'var(--accent-primary)' : val && val.length > 0 ? 'var(--accent-warning)' : 'inherit'
+                              }}
+                              value={val}
+                              onChange={e => {
+                                const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                                handleCellChange(entry.id, col.id, digits);
+                              }}
+                              placeholder="10 digits..."
+                            />
+                          ) : (
+                            <input
+                              type={col.type === 'number' ? 'number' : col.type === 'date' ? 'date' : 'text'}
+                              className="table-input"
+                              value={val}
+                              onChange={e => handleCellChange(entry.id, col.id, e.target.value)}
+                              placeholder="Click to edit..."
+                            />
+                          )}
+                        </td>
+                      );
+                    })}
+                    <td style={{ textAlign: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
+                        {/* Edit in Form */}
+                        <button
+                          className="btn btn-secondary btn-sm btn-icon-only"
+                          style={{ width: '30px', height: '30px' }}
+                          onClick={() => handleEditInForm(realIndex !== -1 ? realIndex : idx)}
+                          title="Open this visit in Form View"
+                        >
+                          <Pencil size={13} style={{ color: 'var(--accent-secondary)' }} />
+                        </button>
+
+                        {/* Duplicate Row */}
+                        <button
+                          className="btn btn-secondary btn-sm btn-icon-only"
+                          style={{ width: '30px', height: '30px' }}
+                          onClick={() => onDuplicateEntry && onDuplicateEntry(entry)}
+                          title="Duplicate/Copy this row"
+                        >
+                          <Copy size={13} style={{ color: 'var(--accent-primary)' }} />
+                        </button>
+
+                        {/* Delete Row */}
+                        <button
+                          className="btn btn-danger btn-sm btn-icon-only"
+                          style={{ width: '30px', height: '30px' }}
+                          onClick={() => onDeleteEntry(entry.id)}
+                          title="Delete row"
+                        >
+                          <Trash2 size={13} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>

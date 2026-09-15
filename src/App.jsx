@@ -123,6 +123,22 @@ export default function App() {
     handleUpdateEntry(currentEntryId, { ...previousEntry.data });
   };
 
+  // 3b. Duplicate Row from Table
+  const handleDuplicateEntry = (sourceEntry) => {
+    if (!activeReport || !sourceEntry) return;
+    const newEntryId = `entry_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`;
+    const newEntry = {
+      id: newEntryId,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      data: { ...(sourceEntry.data || {}) }
+    };
+    updateActiveReport(report => ({
+      ...report,
+      entries: [...(report.entries || []), newEntry]
+    }));
+  };
+
   // 4. Delete Entry
   const handleDeleteEntry = (entryId) => {
     if (!activeReport) return;
@@ -274,9 +290,11 @@ export default function App() {
               report={activeReport}
               viewMode={viewMode}
               setViewMode={setViewMode}
+              setActiveEntryIndex={setActiveEntryIndex}
               onUpdateEntry={handleUpdateEntry}
               onNewVisitEntry={handleNewVisitEntry}
               onDeleteEntry={handleDeleteEntry}
+              onDuplicateEntry={handleDuplicateEntry}
               onOpenColumnBuilder={() => setIsColumnBuilderOpen(true)}
               onExportExcel={() => handleExportSingleExcel(activeReport)}
             />
