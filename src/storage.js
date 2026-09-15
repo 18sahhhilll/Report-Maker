@@ -13,7 +13,7 @@ export const SAMPLE_REPORTS = [
       { id: 'col_1', name: 'Time', type: 'time' },
       { id: 'col_2', name: 'Doctor Name', type: 'text' },
       { id: 'col_3', name: 'Date', type: 'date' },
-      { id: 'col_4', name: 'Category', type: 'select', options: ['Core', 'Super Core', 'Non-Core', 'VIP'] },
+      { id: 'col_4', name: 'Category', type: 'text' },
       { id: 'col_5', name: 'Qualification', type: 'select', options: ['MBBS', 'MD', 'MS', 'DNB', 'DM', 'MCh', 'BAMS', 'BHMS'] },
       { id: 'col_6', name: 'Contact No', type: 'phone' }
     ],
@@ -79,7 +79,7 @@ export const PRESET_COLUMNS = [
       { id: 'p_1', name: 'Time', type: 'time' },
       { id: 'p_2', name: 'Doctor Name', type: 'text' },
       { id: 'p_3', name: 'Date', type: 'date' },
-      { id: 'p_4', name: 'Category', type: 'select', options: ['Core', 'Super Core', 'Non-Core', 'VIP'] },
+      { id: 'p_4', name: 'Category', type: 'text' },
       { id: 'p_5', name: 'Qualification', type: 'select', options: ['MBBS', 'MD', 'MS', 'DNB', 'DM', 'MCh', 'BAMS', 'BHMS'] },
       { id: 'p_6', name: 'Contact No', type: 'phone' }
     ]

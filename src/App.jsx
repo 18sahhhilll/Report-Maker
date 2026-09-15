@@ -178,7 +178,7 @@ export default function App() {
         { id: `col_${Date.now()}_1`, name: 'Time', type: 'time' },
         { id: `col_${Date.now()}_2`, name: 'Doctor Name', type: 'text' },
         { id: `col_${Date.now()}_3`, name: 'Date', type: 'date' },
-        { id: `col_${Date.now()}_4`, name: 'Category', type: 'select', options: ['Core', 'Super Core', 'Non-Core', 'VIP'] },
+        { id: `col_${Date.now()}_4`, name: 'Category', type: 'text' },
         { id: `col_${Date.now()}_5`, name: 'Qualification', type: 'select', options: ['MBBS', 'MD', 'MS', 'DNB', 'DM', 'MCh', 'BAMS', 'BHMS'] },
         { id: `col_${Date.now()}_6`, name: 'Contact No', type: 'phone' }
       ];
