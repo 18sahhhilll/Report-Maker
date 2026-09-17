@@ -3,9 +3,7 @@ import {
   Stethoscope, 
   FolderOpen, 
   Menu,
-  Pencil,
   Check,
-  X,
   RefreshCw,
   CheckCircle2
 } from 'lucide-react';
@@ -35,7 +33,7 @@ export default function Header({
 
   return (
     <header className="navbar">
-      {/* Brand Logo & Name */}
+      {/* Brand Logo & Title */}
       <div className="brand-badge">
         <div className="brand-icon">
           <Stethoscope size={20} />
@@ -43,8 +41,8 @@ export default function Header({
         <h1 className="brand-title">MedRep Logger</h1>
       </div>
 
-      {/* Center/Right: Report Badge & Action Menu */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      {/* Right Controls: Report Switcher & Menu Button */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexShrink: 0, maxWidth: '60%' }}>
         
         {/* Active Report Title Switcher Badge */}
         {activeReport && (
@@ -54,17 +52,15 @@ export default function Header({
               onClick={onOpenReportList}
               title="Click to switch or rename report"
             >
-              <FolderOpen size={14} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {activeReport.title}
-              </span>
+              <FolderOpen size={13} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
+              <span>{activeReport.title}</span>
             </button>
           ) : (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem' }}>
               <input
                 type="text"
                 className="form-control"
-                style={{ minHeight: '36px', padding: '0.2rem 0.6rem', fontSize: '0.85rem', width: '140px' }}
+                style={{ minHeight: '34px', padding: '0.2rem 0.5rem', fontSize: '0.8rem', width: '100px' }}
                 value={editedTitle}
                 onChange={e => setEditedTitle(e.target.value)}
                 onKeyDown={e => {
@@ -75,7 +71,7 @@ export default function Header({
               />
               <button
                 className="btn btn-primary btn-sm btn-icon-only"
-                style={{ width: '34px', height: '34px' }}
+                style={{ width: '32px', height: '32px' }}
                 onClick={handleSaveTitle}
               >
                 <Check size={14} />
@@ -84,14 +80,14 @@ export default function Header({
           )
         )}
 
-        {/* Save Indicator Dot */}
+        {/* Save Indicator Icon */}
         <div style={{ 
           fontSize: '0.75rem', 
           color: saveStatus === 'saving' ? 'var(--accent-warning)' : 'var(--accent-primary)',
           display: 'flex', 
           alignItems: 'center', 
-          gap: '3px' 
-        }}>
+          flexShrink: 0 
+        }} title={saveStatus === 'saving' ? 'Saving...' : 'All changes saved'}>
           {saveStatus === 'saving' ? (
             <RefreshCw size={13} style={{ animation: 'spin 1s linear infinite' }} />
           ) : (
@@ -99,14 +95,14 @@ export default function Header({
           )}
         </div>
 
-        {/* Single Main Action Menu Button */}
+        {/* Single Main Action Menu Button - FIXED ON TOP RIGHT */}
         <button 
           className="btn btn-secondary btn-icon-only"
-          style={{ width: '40px', height: '40px' }}
+          style={{ width: '38px', height: '38px', flexShrink: 0 }}
           onClick={onOpenMenuModal}
           title="Open Menu & Export Tools"
         >
-          <Menu size={20} />
+          <Menu size={18} />
         </button>
 
       </div>

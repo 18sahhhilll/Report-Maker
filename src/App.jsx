@@ -6,6 +6,7 @@ import EntryFormView from './components/EntryFormView';
 import EntryTableView from './components/EntryTableView';
 import BackupModal from './components/BackupModal';
 import ActionsMenuModal from './components/ActionsMenuModal';
+import MobileBottomNav from './components/MobileBottomNav';
 import { loadReports, saveReports, clearAllStorage, SAMPLE_REPORTS } from './storage';
 import { exportReportToExcel, exportAllReportsToExcel } from './utils/excelExport';
 
@@ -349,6 +350,15 @@ export default function App() {
         reports={reports}
         onImportBackup={handleImportBackup}
         onClearStorage={handleClearStorage}
+      />
+
+      {/* Mobile Bottom Navigation Bar */}
+      <MobileBottomNav
+        onOpenReportList={() => setIsReportListOpen(true)}
+        onOpenColumnBuilder={() => setIsColumnBuilderOpen(true)}
+        onNewVisitEntry={handleNewVisitEntry}
+        onExportExcel={() => handleExportSingleExcel(activeReport)}
+        onOpenMenuModal={() => setIsMenuModalOpen(true)}
       />
 
     </div>

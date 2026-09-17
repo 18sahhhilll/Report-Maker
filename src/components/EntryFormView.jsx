@@ -6,9 +6,7 @@ import {
   Copy, 
   Trash2, 
   LayoutList, 
-  Table, 
-  Pencil,
-  Sliders
+  Table
 } from 'lucide-react';
 
 export default function EntryFormView({
@@ -20,8 +18,7 @@ export default function EntryFormView({
   onUpdateEntry,
   onNewVisitEntry,
   onDeleteEntry,
-  onCopyPreviousEntry,
-  onOpenColumnBuilder
+  onCopyPreviousEntry
 }) {
   const entries = report?.entries || [];
   const columns = report?.columns || [];
@@ -29,7 +26,7 @@ export default function EntryFormView({
 
   if (!currentEntry) {
     return (
-      <div style={{ textAlign: 'center', padding: '4rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+      <div style={{ textAlign: 'center', padding: '3rem 1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
         <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem' }}>No doctor visit entries recorded yet in this report.</p>
         <button className="btn btn-primary" onClick={onNewVisitEntry}>
           <Plus size={18} /> Record First Doctor Visit
@@ -46,41 +43,53 @@ export default function EntryFormView({
   };
 
   return (
-    <div style={{ padding: '0.75rem 0.5rem', width: '100%' }}>
+    <div style={{ padding: '0.5rem', width: '100%' }}>
       
-      {/* View Switcher & Pagination Bar */}
+      {/* View Switcher & Pagination Bar (Responsive Wrap) */}
       <div 
         style={{ 
-          marginBottom: '1rem', 
+          marginBottom: '0.85rem', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between',
-          gap: '0.5rem'
+          gap: '0.5rem',
+          flexWrap: 'wrap'
         }}
       >
         {/* Form / Table Toggle */}
-        <div className="tab-group" style={{ maxWidth: '220px' }}>
+        <div className="tab-group" style={{ flex: 1, minWidth: '150px' }}>
           <button
             className={`tab-btn ${viewMode === 'form' ? 'active' : ''}`}
             onClick={() => setViewMode('form')}
           >
-            <LayoutList size={15} />
+            <LayoutList size={14} />
             <span>Form</span>
           </button>
           <button
             className={`tab-btn ${viewMode === 'table' ? 'active' : ''}`}
             onClick={() => setViewMode('table')}
           >
-            <Table size={15} />
+            <Table size={14} />
             <span>Table</span>
           </button>
         </div>
 
-        {/* Simple Compact Pagination */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', background: 'var(--bg-surface)', padding: '3px 8px', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+        {/* Compact Pagination */}
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between',
+          gap: '0.25rem', 
+          background: 'var(--bg-surface)', 
+          padding: '3px 6px', 
+          borderRadius: 'var(--radius-full)', 
+          border: '1px solid var(--border-subtle)', 
+          boxShadow: 'var(--shadow-sm)',
+          flexShrink: 0
+        }}>
           <button
             className="btn btn-secondary btn-sm btn-icon-only"
-            style={{ width: '32px', height: '32px', border: 'none' }}
+            style={{ width: '30px', height: '30px', border: 'none' }}
             onClick={() => setActiveEntryIndex(Math.max(0, activeEntryIndex - 1))}
             disabled={activeEntryIndex === 0}
             title="Previous Visit"
@@ -88,13 +97,13 @@ export default function EntryFormView({
             <ChevronLeft size={16} />
           </button>
 
-          <span style={{ fontWeight: 700, fontSize: '0.85rem', padding: '0 4px', color: 'var(--text-primary)' }}>
+          <span style={{ fontWeight: 700, fontSize: '0.8rem', padding: '0 4px', color: 'var(--text-primary)', whiteSpace: 'nowrap' }}>
             Visit {activeEntryIndex + 1} of {entries.length}
           </span>
 
           <button
             className="btn btn-secondary btn-sm btn-icon-only"
-            style={{ width: '32px', height: '32px', border: 'none' }}
+            style={{ width: '30px', height: '30px', border: 'none' }}
             onClick={() => setActiveEntryIndex(Math.min(entries.length - 1, activeEntryIndex + 1))}
             disabled={activeEntryIndex === entries.length - 1}
             title="Next Visit"
@@ -105,10 +114,10 @@ export default function EntryFormView({
       </div>
 
       {/* Clean Form Card */}
-      <div className="card" style={{ padding: '1.25rem 1.25rem 1.5rem 1.25rem' }}>
+      <div className="card" style={{ padding: '1.1rem' }}>
         
         {/* Dynamic Fields List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
           {columns.map((col) => {
             const val = currentEntry.data ? (currentEntry.data[col.id] ?? '') : '';
 
@@ -157,7 +166,7 @@ export default function EntryFormView({
                     />
                     {val && val.length > 0 && val.length < 10 && (
                       <span style={{ fontSize: '0.75rem', color: 'var(--accent-warning)', marginTop: '2px', display: 'block' }}>
-                        ⚠️ Phone number must be exactly 10 digits ({val.length}/10)
+                        ⚠️ Phone number must be 10 digits ({val.length}/10)
                       </span>
                     )}
                     {val && val.length === 10 && (
@@ -203,20 +212,20 @@ export default function EntryFormView({
           })}
         </div>
 
-        {/* Secondary Card Actions: Copy & Delete */}
-        <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+        {/* Secondary Actions: Copy Previous & Delete */}
+        <div style={{ marginTop: '1.1rem', paddingTop: '0.85rem', borderTop: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
           {activeEntryIndex > 0 ? (
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => onCopyPreviousEntry(currentEntry.id, activeEntryIndex)}
               title="Copy details from previous visit"
             >
-              <Copy size={15} style={{ color: 'var(--accent-secondary)' }} />
+              <Copy size={14} style={{ color: 'var(--accent-secondary)' }} />
               <span>Copy Previous</span>
             </button>
           ) : (
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              Auto-saved instantly
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              Auto-saved
             </span>
           )}
 
@@ -226,7 +235,7 @@ export default function EntryFormView({
               onClick={() => onDeleteEntry(currentEntry.id)}
               title="Delete this visit entry"
             >
-              <Trash2 size={15} />
+              <Trash2 size={14} />
               <span>Delete Entry</span>
             </button>
           )}
@@ -234,12 +243,12 @@ export default function EntryFormView({
 
       </div>
 
-      {/* Main Primary Action Button at bottom */}
-      <div style={{ marginTop: '1rem' }}>
+      {/* Main Primary Action Button */}
+      <div style={{ marginTop: '0.85rem' }}>
         <button 
           className="btn btn-primary" 
           onClick={onNewVisitEntry}
-          style={{ width: '100%', minHeight: '52px', fontSize: '1rem', borderRadius: 'var(--radius-lg)' }}
+          style={{ width: '100%', minHeight: '50px', fontSize: '1rem', borderRadius: 'var(--radius-lg)' }}
         >
           <Plus size={20} /> Add Next Doctor Visit
         </button>
